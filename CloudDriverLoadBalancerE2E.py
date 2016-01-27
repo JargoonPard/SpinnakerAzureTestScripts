@@ -32,7 +32,7 @@ r = requests.get(load_balancer_endpoint, headers=headers)
 
 #the next line will fail if there is not 'error' as the first element.
 #this should pass if the load balancer has not been created yet
-if (!r.json()['error']):
+if (not r.json()['error']):
 	test_passed = False
 
 #create a new loadbalancer through clouddriver
