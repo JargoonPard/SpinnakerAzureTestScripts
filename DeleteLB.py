@@ -52,5 +52,3 @@ else:
 #
 # DELETE
 #
-
-print('SUCCESS!!')
