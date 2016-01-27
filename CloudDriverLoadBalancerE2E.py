@@ -121,9 +121,9 @@ else:
 # DELETE
 #
 #delete a loadbalancer through clouddriver
-url = clouddriver_host + '/azure/ops'
+url = clouddriver_host + '/ops'
 
-lb_delete = '[ { "deleteLoadBalancer": { "cloudProvider" : "azure", "providerType" : "azure", "appName" : "azure1", "loadBalancerName" : "azure1-st1-d1", "region": "West US", "credentials": "azure-cred1" }} ]'
+lb_delete = '[ { "deleteLoadBalancer": { "cloudProvider" : "azure", "providerType" : "azure", "appName" : "azure1", "loadBalancerName" : "azure1-st1-d1", "regions": [{"westus"}], "credentials": "azure-cred1" }} ]'
 
 print ctime(), ' - Delete load balancer'
 sys.stdout.flush()
