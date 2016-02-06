@@ -87,71 +87,8 @@ else:
 	test_passed = False
 #end creation validation
 
-#update the securityGroup
-url = clouddriver_host + '/ops'
-
-sg_update = '[ { "upsertSecurityGroup": { "cloudProvider" : "azure", "appName" : "azuresg1", "securityGroupName" : "azuresg1-st1-d1", "stack" : "st1", "detail" : "d1", "credentials" : "' + azure_creds + '", "region" : "westus", "vnet" : "none", "tags" : { "appName" : "testazure4", "stack" : "sg22", "detail" : "d11"}, "securityRules" : [ { "name" : "rule1", "description" : "Allow FE Subnet", "access" : "Allow", "destinationAddressPrefix" : "*", "destinationPortRange" : "433", "direction" : "Inbound", "priority" : 100, "protocol" : "TCP", "sourceAddressPrefix" : "10.0.0.0/24", "sourcePortRange" : "*" }, { "name" : "rule2", "description" : "Block RDP", "access" : "Deny", "destinationAddressPrefix" : "*", "destinationPortRange" : "3389", "direction" : "Inbound", "priority" : 101, "protocol" : "TCP", "sourceAddressPrefix" : "Internet", "sourcePortRange" : "*" } ], "name" : "azuresg1-st1-d1", "user" : "[anonymous]" }} ]'
-
-print ctime(), ' - Update security group'
-sys.stdout.flush()
-r = requests.post(url, data = sg_update, headers={'Content-Type': 'application/json'})
-print ctime(), ' - result: ', (r.text)
-sys.stdout.flush()
-#end update
-
-#continuously check the deployment until it is complete
-CheckDeployment()
-#deployment complete
-
-#validate the update
-print ctime(), ' - Validate Deployment'
-sys.stdout.flush()
-r = requests.get(security_group_endpoint, headers=headers)
-
-if (r.json()['properties']['securityRules'][1]['name'] == 'rule2'):
-	print ctime(), ' - securityGroup Created'
-	sys.stdout.flush()
-else:
-	print ctime(), ' - Creation Failed: ', r.json()['properties']['securityRules'][1]['name']
-	sys.stdout.flush()
-	test_passed = False
-#end update validation
-
-
-#
-# DELETE
-#
-#delete a securityGroup through clouddriver
-url = clouddriver_host + '/ops'
-
-sg_delete = '[ { "deleteSecurityGroup": { "cloudProvider" : "azure", "appName" : "azuresg1", "securityGroupName" : "azuresg1-st1-d1", "regions": ["westus"], "credentials": "' + azure_creds + '" }} ]'
-
-print ctime(), ' - Delete security group'
-sys.stdout.flush()
-r = requests.post(url, data = sg_delete, headers={'Content-Type': 'application/json'})
-print ctime(), ' - result: ', (r.text)
-sys.stdout.flush()
-
-#validate delete
-sleep(10)
-print ctime(), ' - Validate Delete'
-sys.stdout.flush()
-r = requests.get(security_group_endpoint, headers=headers)
-
-if (not r.json()['error']):
-	print ctime(), ' - Deletion Failed: ', r.text
-	test_passed = False
-else:
-	sys.stdout.flush()
-	print ctime(), ' - securityGroup Deleted'
-	sys.stdout.flush()
-
-#end delete validation
-#
-# DELETE
-#
-
 if (test_passed):
 	print('SUCCESS!!')
 else:
 	print('FAILED')
+
