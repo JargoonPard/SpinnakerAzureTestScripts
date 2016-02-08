@@ -7,11 +7,14 @@ from time import sleep, ctime
 import sys
 
 #You need to provide your own credentials as environment variables.
-authority = os.environ['AZURE_E2E_AUTHORITY']
-client_id = os.environ['AZURE_E2E_CLIENT_ID']
-client_secret = os.environ['AZURE_E2E_CLIENT_SECRET']
+authority = 'https://login.microsoftonline.com/' + os.environ['AZURE_TENANT_ID']
+client_id = os.environ['AZURE_CLIENT_ID']
+client_secret = os.environ['AZURE_APPKEY']
 subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
 clouddriver_host = 'http://localhost:7002'
+azure_creds = os.environ['AZURE_CREDENTIALS']
+if (azure_creds == ''):
+ 	azure_creds = 'azure-cred1'
 
 token_response = adal.acquire_token_with_client_credentials(
 	authority,
@@ -31,7 +34,7 @@ deployment_endpoint = 'https://management.azure.com/subscriptions/' + subscripti
 #delete a loadbalancer through clouddriver
 url = clouddriver_host + '/ops'
 
-lb_delete = '[ { "deleteLoadBalancer": { "cloudProvider" : "azure", "providerType" : "azure", "appName" : "azure1", "loadBalancerName" : "azure1-st1-d1", "regions": [{"westus"}], "credentials": "azure-cred1" }} ]'
+lb_delete = '[ { "deleteLoadBalancer": { "cloudProvider" : "azure", "providerType" : "azure", "appName" : "azure1", "loadBalancerName" : "azure1-st1-d1", "regions": [{"westus"}], "credentials": "' + azure_creds + '" }} ]'
 
 print ctime(), ' - Delete load balancer'
 sys.stdout.flush()

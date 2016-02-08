@@ -6,9 +6,9 @@ import json
 from time import sleep, ctime
 import sys
 
-authority = os.environ['AZURE_E2E_AUTHORITY']
-client_id = os.environ['AZURE_E2E_CLIENT_ID']
-client_secret = os.environ['AZURE_E2E_CLIENT_SECRET']
+authority = 'https://login.microsoftonline.com/' + os.environ['AZURE_TENANT_ID']
+client_id = os.environ['AZURE_CLIENT_ID']
+client_secret = os.environ['AZURE_APPKEY']
 subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
 clouddriver_host = 'http://localhost:7002'
 

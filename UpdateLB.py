@@ -6,11 +6,14 @@ import json
 from time import sleep, ctime
 import sys
 
-authority = os.environ['AZURE_E2E_AUTHORITY']
-client_id = os.environ['AZURE_E2E_CLIENT_ID']
-client_secret = os.environ['AZURE_E2E_CLIENT_SECRET']
+authority = 'https://login.microsoftonline.com/' + os.environ['AZURE_TENANT_ID']
+client_id = os.environ['AZURE_CLIENT_ID']
+client_secret = os.environ['AZURE_APPKEY']
 subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
 clouddriver_host = 'http://localhost:7002'
+azure_creds = os.environ['AZURE_CREDENTIALS']
+if (azure_creds == ''):
+ 	azure_creds = 'azure-cred1'
 
 token_response = adal.acquire_token_with_client_credentials(
 	authority,
@@ -30,7 +33,7 @@ deployment_endpoint = 'https://management.azure.com/subscriptions/' + subscripti
 #update a new loadbalancer through clouddriver
 url = clouddriver_host + '/ops'
 
-lb_update = '[ { "upsertLoadBalancer": { "cloudProvider" : "azure", "appName" : "azure1", "loadBalancerName" : "azure1-st1-d1", "stack" : "st1", "detail" : "d1", "credentials" : "azure-cred1", "region" : "West US", "vnet" : null, "probes" : [ { "probeName" : "healthcheck2", "probeProtocol" : "HTTP", "probePort" : 7001, "probePath" : "/healthcheck", "probeInterval" : 10, "unhealthyThreshold" : 2 } ], "securityGroups" : null, "loadBalancingRules" : [ { "ruleName" : "lbRule1", "protocol" : "TCP", "externalPort" : "80", "backendPort" : "80", "probeName" : "healthcheck2", "persistence" : "None", "idleTimeout" : "4" } ], "inboundNATRules" : [ { "ruleName" : "inboundRule1", "serviceType" : "SSH", "protocol" : "TCP", "port" : "80" } ], "name" : "azure1-st1-d1", "user" : "[anonymous]" }} ]'
+lb_update = '[ { "upsertLoadBalancer": { "cloudProvider" : "azure", "appName" : "azure1", "loadBalancerName" : "azure1-st1-d1", "stack" : "st1", "detail" : "d1", "credentials" : "' + azure_creds + '", "region" : "West US", "vnet" : null, "probes" : [ { "probeName" : "healthcheck2", "probeProtocol" : "HTTP", "probePort" : 7001, "probePath" : "/healthcheck", "probeInterval" : 10, "unhealthyThreshold" : 2 } ], "securityGroups" : null, "loadBalancingRules" : [ { "ruleName" : "lbRule1", "protocol" : "TCP", "externalPort" : "80", "backendPort" : "80", "probeName" : "healthcheck2", "persistence" : "None", "idleTimeout" : "4" } ], "inboundNATRules" : [ { "ruleName" : "inboundRule1", "serviceType" : "SSH", "protocol" : "TCP", "port" : "80" } ], "name" : "azure1-st1-d1", "user" : "[anonymous]" }} ]'
 
 print ctime(), ' - Update load balancer'
 sys.stdout.flush()
