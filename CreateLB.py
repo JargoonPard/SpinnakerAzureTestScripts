@@ -11,9 +11,7 @@ client_id = os.environ['AZURE_CLIENT_ID']
 client_secret = os.environ['AZURE_APPKEY']
 subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
 clouddriver_host = 'http://localhost:7002'
-azure_creds = os.environ['AZURE_CREDENTIALS']
-if (azure_creds == ''):
- 	azure_creds = 'azure-cred1'
+azure_creds = os.getenv('AZURE_CREDENTIALS', 'azure-cred1')
 
 token_response = adal.acquire_token_with_client_credentials(
 	authority,
