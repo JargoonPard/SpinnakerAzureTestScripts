@@ -19,7 +19,7 @@ deployment_endpoint = 'https://management.azure.com/subscriptions/' + subscripti
 #IMPORTANT  - This requires a loadbalancer to exist with the name <appName>-st1-d1 
 #   and a backend address pool named be-<appName>-st1-d1
 url = clouddriver_host + '/ops'
-server_group_data = '[ { "createServerGroup": { "name": "' + appName + '-st1-d1", "cloudProvider": "azure", "appName": "' + appName + '",  "stack": "st1", "detail": "d1", "credentials": "' + azure_creds + '", "region": "West US", "user": "[anonymous]", "upgradePolicy": "Automatic", "loadBalancerName": "' + appName + '-st1-d1", "image": { "publisher": "Canonical", "offer": "UbuntuServer", "sku": "14.04.3-LTS", "version": "14.04.201602171" }, "sku": { "name": "Standard_A1", "tier": "Standard", "capacity": 2 }, "osConfig": { "adminUserName": "spinnakerUser", "adminPassword": "asd!!34ABC" }, "application": "' + appName + '", "type": "createServerGroup" }} ]'
+server_group_data = '[ { "createServerGroup": { "name": "' + appName + '-st1-d1", "cloudProvider": "azure", "appName": "' + appName + '",  "stack": "st1", "detail": "d1", "credentials": "' + azure_creds + '", "region": "West US", "user": "[anonymous]", "upgradePolicy": "Automatic", "loadBalancerName": "' + appName + '-st1-d1", "securityGroup": { "name": "' + appName + '-st1-d1"}, "image": { "publisher": "Canonical", "offer": "UbuntuServer", "sku": "14.04.3-LTS", "version": "14.04.201602171" }, "sku": { "name": "Standard_A1", "tier": "Standard", "capacity": 2 }, "osConfig": { "adminUserName": "spinnakerUser", "adminPassword": "asd!!34ABC" }, "application": "' + appName + '", "type": "createServerGroup" }} ]'
 
 print ctime(), ' - Post new server group'
 r = requests.post(url, data = server_group_data, headers={'Content-Type': 'application/json'})

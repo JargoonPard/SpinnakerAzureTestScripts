@@ -23,6 +23,7 @@ def CheckDeployment(deployment_endpoint, headers):
 	while (provisioningState != 'Succeeded'):
 		sleep(10)
 		r = requests.get(deployment_endpoint, headers=headers)
+		
 		provisioningState = r.json()['properties']['provisioningState']
 		print ctime(), ' - provisioningState: ', provisioningState
 		sys.stdout.flush()
