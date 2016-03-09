@@ -7,7 +7,7 @@ from time import sleep, ctime
 import sys
 
 test_passed = True
-appName = 'azure1'
+appName = 'azureTesting'
 
 authority = 'https://login.microsoftonline.com/' + os.environ['AZURE_TENANT_ID']
 client_id = os.environ['AZURE_CLIENT_ID']
