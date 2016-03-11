@@ -12,7 +12,6 @@ clouddriver_host = 'http://localhost:7002'
 azure_creds = os.getenv('AZURE_CREDENTIALS', 'azure-cred1')
 appName = 'azureTesting'
 
-scale_set_endpoint = 'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + appName + '_westus/providers/Microsoft.Network/loadBalancers/' + appName + '-st1-d1?api-version=2015-05-01-preview'
 deployment_endpoint = 'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + appName + '-westus/providers/microsoft.resources/deployments/' + appName + '-st1-d1-deployment?api-version=2015-11-01'
 
 #create a new server group through clouddriver

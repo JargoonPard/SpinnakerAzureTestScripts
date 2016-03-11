@@ -79,7 +79,7 @@ print ctime(), ' - Validate Create'
 sys.stdout.flush()
 r = requests.get(security_group_endpoint, headers=headers)
 
-if (r.json()['name'] == '' + appName + '-st1-d1'):
+if (r.json()['name'] == '' + appName.lower() + '-st1-d1'):
 	print ctime(), ' - securityGroup Created'
 	sys.stdout.flush()
 else:
