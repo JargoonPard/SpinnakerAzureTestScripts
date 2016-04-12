@@ -7,29 +7,40 @@ from time import sleep, ctime
 import sys
 
 #continuously check the deployment until it is complete
-def CheckDeployment(deployment_endpoint, headers):
+def CheckDeployment(deployment_endpoint, headers, timeout):
 	print ctime(), ' - Waiting for deployment...'
 	sys.stdout.flush()
+	loopCounter = 0
 	r = requests.get(deployment_endpoint, headers=headers)
-	while (r.text.find('error') != -1):
-		sleep(10)
+	while (r.text.find('error') != -1 and loopCounter <= timeout):
+		sleep(5)
+		loopCounter += 5
 		r = requests.get(deployment_endpoint, headers=headers)
 	
+	if (loopCounter > timeout):
+		return False
+		 
 	provisioningState = 'none'
 	
 	print ctime(), ' - Checking deployment state'
 	sys.stdout.flush()
 	
-	while (provisioningState != 'Succeeded'):
-		sleep(10)
+	loopCounter = 0
+	while (provisioningState != 'Succeeded' and loopCounter <= timeout):
+		sleep(5)
+		loopCounter += 5
 		r = requests.get(deployment_endpoint, headers=headers)
 		
 		provisioningState = r.json()['properties']['provisioningState']
 		print ctime(), ' - provisioningState: ', provisioningState
 		sys.stdout.flush()
 		
+	if (loopCounter > timeout):
+		return False
+
 	print ctime(), ' - Deployment complete'
 	sys.stdout.flush()
+	return True
 #deployment complete
 
 #get access token_response
