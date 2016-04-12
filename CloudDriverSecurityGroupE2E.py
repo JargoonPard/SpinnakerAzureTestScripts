@@ -124,6 +124,9 @@ while (r.text.find('error') == -1 and loopCounter <= timeout):
 	loopCounter += 5
 	r = requests.get(security_group_endpoint, headers=authHeaders)
 
+if (loopCounter > timeout):
+	print ctime(), ' - Check operation timed out'
+
 if (r.json()['error']['code'] == 'ResourceNotFound' or r.json()['error']['code'] == 'NotFound'):
 	print ctime(), ' - Securit Group Deleted'
 else:

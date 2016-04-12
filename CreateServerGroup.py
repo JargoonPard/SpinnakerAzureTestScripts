@@ -67,7 +67,7 @@ print(r.text)
 
 authHeaders = TestUtilities.GetAzureAccessHeaders()
 
-result = TestUtilities.CheckDeployment(deployment_sg_endpoint, authHeaders, 3 * 60)
+test_passed = TestUtilities.CheckDeployment(deployment_sg_endpoint, authHeaders, 15 * 60)
 
 #validate creation
 sleep(5)
@@ -76,7 +76,7 @@ sys.stdout.flush()
 r = requests.get(load_balancer_endpoint, headers=authHeaders)
 
 # skip validation check since the deployment could succeed while server VMSS is still being deployed
-#if (result and r.json()['name'] == '' + appName.lower() + '-st1-d1-v000'):
+#if (test_passed and r.json()['name'] == '' + appName.lower() + '-st1-d1-v000'):
 #	print ctime(), ' - Server Group Created'
 #	sys.stdout.flush()
 #else:

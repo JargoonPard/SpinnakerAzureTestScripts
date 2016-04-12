@@ -102,7 +102,7 @@ print(r.text)
 
 authHeaders = TestUtilities.GetAzureAccessHeaders()
 
-result = TestUtilities.CheckDeployment(deployment_sg_endpoint, authHeaders, 3 * 60)
+test_passed = TestUtilities.CheckDeployment(deployment_sg_endpoint, authHeaders, 15 * 60)
 
 #validate creation
 sleep(5)

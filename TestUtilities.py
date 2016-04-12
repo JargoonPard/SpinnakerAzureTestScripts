@@ -36,8 +36,9 @@ def CheckDeployment(deployment_endpoint, headers, timeout):
 		sys.stdout.flush()
 		
 	if (loopCounter > timeout):
+		print ctime(), ' - Check operation timed out'
 		return False
-
+	
 	print ctime(), ' - Deployment complete'
 	sys.stdout.flush()
 	return True
